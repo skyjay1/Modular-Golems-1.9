@@ -1,9 +1,9 @@
 package com.modulargolems.blocks;
 
 import com.modulargolems.entity.ModularGolem;
+import com.modulargolems.events.GolemBuildEvent;
 import com.modulargolems.main.Config;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -15,6 +15,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 
 public class BlockGolemHead extends BlockHorizontal
 {
@@ -68,9 +70,6 @@ public class BlockGolemHead extends BlockHorizontal
 		IBlockState east = world.getBlockState(pos.down(1).east(1));
 		IBlockState north = world.getBlockState(pos.down(1).north(1));
 		IBlockState south = world.getBlockState(pos.down(1).south(1));
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
 		
 		if(Config.isBlockMapped(down1) && Config.isBlockMapped(down2))
 		{
@@ -82,6 +81,11 @@ public class BlockGolemHead extends BlockHorizontal
 				IBlockState arm1 = flagNS ? north : east;
 				IBlockState arm2 = flagNS ? south : west;
 				ModularGolem golem = new ModularGolem(world, arm1, arm2, down1, down2);
+				
+				// make sure this golem CAN spawn
+				GolemBuildEvent event = new GolemBuildEvent(golem, pos, flagNS);
+				MinecraftForge.EVENT_BUS.post(event);
+				if(event.getResult() != Result.ALLOW) return;
 				
 				// clear the area where the golem blocks were
 				removeGolemBlocks(world, pos, flagWE);

@@ -2,7 +2,9 @@ package com.modulargolems.main;
 
 import com.modulargolems.blocks.BlockGolemHead;
 import com.modulargolems.blocks.BlockLightProvider;
+import com.modulargolems.blocks.BlockPowerProvider;
 import com.modulargolems.blocks.TileEntityMovingLightSource;
+import com.modulargolems.blocks.TileEntityMovingPowerSource;
 import com.modulargolems.items.ItemGolemPaper;
 
 import net.minecraft.block.Block;
@@ -18,11 +20,13 @@ public class GolemItems
 	
 	public static Block golemHead;				
 	public static Block blockLightSourceFull;	
-	public static Block blockLightSourceHalf;	
+	public static Block blockLightSourceHalf;
+	public static Block blockPowerSource;
 	
 	public static ItemBlock itemGolemHead;
 	public static ItemBlock itemLightSourceFull;
 	public static ItemBlock itemLightSourceHalf;
+	public static ItemBlock itemPowerSource;
 
 	public static void mainRegistry()
 	{
@@ -31,13 +35,13 @@ public class GolemItems
 		initItems();
 
 		register(TileEntityMovingLightSource.class, "TileEntityMovingLightSource");
+		register(TileEntityMovingPowerSource.class, "TileEntityMovingPowerSource");
 
 		register(golemPaper, "golem_paper");
 		register(golemHead, itemGolemHead, "golem_head");
 		register(blockLightSourceFull, itemLightSourceFull, "light_provider_full");
 		register(blockLightSourceHalf, itemLightSourceHalf, "light_provider_half");
-		
-		oreDictItems();
+		register(blockPowerSource, itemPowerSource, "power_provider_all");
 	}
 
 	private static void initBlocks()
@@ -45,6 +49,7 @@ public class GolemItems
 		golemHead = new BlockGolemHead();
 		blockLightSourceFull = new BlockLightProvider(1.0F);
 		blockLightSourceHalf = new BlockLightProvider(0.5F);
+		blockPowerSource = new BlockPowerProvider();
 	}
 	
 	private static void initItemBlocks()
@@ -52,6 +57,7 @@ public class GolemItems
 		itemGolemHead = new ItemBlock(golemHead);
 		itemLightSourceFull = new ItemBlock(blockLightSourceFull);
 		itemLightSourceHalf = new ItemBlock(blockLightSourceHalf);
+		itemPowerSource = new ItemBlock(blockPowerSource);
 	}
 
 	private static void initItems()
@@ -76,11 +82,5 @@ public class GolemItems
 	private static void register(Class <? extends TileEntity> teClass, String name)
 	{
 		GameRegistry.registerTileEntity(teClass, ModularGolems.MODID + "." + name);
-	}
-	
-	private static void oreDictItems()
-	{
-		OreDictionary.registerOre("paperGolem", golemPaper);
-		OreDictionary.registerOre("headGolem", golemHead);
 	}
 }

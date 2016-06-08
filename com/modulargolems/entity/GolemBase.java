@@ -54,7 +54,7 @@ import net.minecraftforge.oredict.OreDictionary;
  **/
 public abstract class GolemBase extends EntityCreature implements IAnimals 
 {
-	protected int attackTimer;
+	public int attackTimer;
 	protected boolean isPlayerCreated;
 	protected ResourceLocation textureLoc;
 	protected boolean hasHome = false;

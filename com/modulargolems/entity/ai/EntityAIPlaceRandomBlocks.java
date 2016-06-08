@@ -15,22 +15,20 @@ public class EntityAIPlaceRandomBlocks extends EntityAIBase
 	public final int tickDelay;
 	public final IBlockState[] plantables;
 	public final Block[] plantSupports;
-	public final boolean canExecute;
 	
-	public EntityAIPlaceRandomBlocks(GolemBase golemBase, int ticksBetweenPlanting, IBlockState[] plants, Block[] soils, boolean configAllows)
+	public EntityAIPlaceRandomBlocks(GolemBase golemBase, int ticksBetweenPlanting, IBlockState[] plants, Block[] soils)
 	{
 		this.setMutexBits(8);
 		this.golem = golemBase;
 		this.tickDelay = ticksBetweenPlanting;
 		this.plantables = plants;
 		this.plantSupports = soils;
-		this.canExecute = configAllows;
 	}
 	
 	@Override
 	public boolean shouldExecute() 
 	{
-		return canExecute && golem.worldObj.rand.nextInt(tickDelay) == 0;
+		return golem.worldObj.rand.nextInt(tickDelay) == 0;
 	}
 	
 	@Override
@@ -49,7 +47,7 @@ public class EntityAIPlaceRandomBlocks extends EntityAIBase
 				if(blockBelow == b)
 				{
 					// debug:
-					// System.out.println("Planting a flower!");
+					System.out.println("Placing a block using AI!");
 					setToPlant(golem.worldObj, below.up(1));
 					return;
 				}

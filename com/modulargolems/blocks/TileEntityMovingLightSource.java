@@ -36,30 +36,28 @@ public class TileEntityMovingLightSource extends TileEntity implements ITickable
 		// if no golem was found, delete this tile entity and block
 		if(entityList.isEmpty())
 		{
-			selfDestruct(this.worldObj, this.getPos());
+			selfDestruct();
 		}
-		else 
+		else // if golems WERE found, make sure they have a light level
 		{
 			int maxLight = 0;
 			for(ModularGolem g : entityList)
 			{
-				int l = g.getLight();
+				int l = g.getLightLevel();
 				if(l > maxLight) maxLight = l;
 			}
+			// if no light level was high enough, selfDestruct
 			if(maxLight == 0)
 			{
-				selfDestruct(this.worldObj, this.getPos());
+				selfDestruct();
 			}
 		}
 	} 
 
-	protected void selfDestruct(World world, BlockPos pos)
+	protected void selfDestruct()
 	{
-		if(world.getBlockState(pos).getBlock() instanceof BlockLightProvider)
-		{
-			world.removeTileEntity(getPos());
-			world.setBlockToAir(getPos());
-		}
+		this.getWorld().removeTileEntity(getPos());
+		this.getWorld().setBlockToAir(getPos());
 	}
 
 	protected AxisAlignedBB getAABBToCheck(World worldIn, BlockPos pos)

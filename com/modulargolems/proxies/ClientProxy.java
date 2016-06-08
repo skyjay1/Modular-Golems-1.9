@@ -31,6 +31,7 @@ public class ClientProxy extends CommonProxy
 		register(GolemItems.itemGolemHead, "minecraft:pumpkin");
 		register(GolemItems.itemLightSourceFull);
 		register(GolemItems.itemLightSourceHalf);
+		register(GolemItems.blockPowerSource);
 	}
 
 	public void registerItemRenders()
